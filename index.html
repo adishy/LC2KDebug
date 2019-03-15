@@ -1,0 +1,127 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>LC2K Debug</title>
+        <link href="stylesheets/main-stylesheet.css" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,400i,700,700i" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,400i,700,700i" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet"> 
+    </head>
+    <body>
+        <div class="Editor">
+            <div class="FileDisplayTitle">
+                <div class="FilenameDisplay">
+                    <p class="FilesSelectedTitle">FILES SELECTED: </p>
+                    <ul class="FilenamesList">
+                    </ul>
+                </div>
+            </div>
+            <div class="FileDisplay">
+            </div>
+            <div class="ButtonDisplayBar">
+                <div class="AssemblyFileButton">
+                    <p>SELECT ASSEMBLY FILES</p>
+                </div>
+                <div class="MachineCodeFileButton Tooltip DisabledButton">
+                    <span class="TooltipText MachineCodeFilename">No file selected</span>
+                    <p>SELECT MACHINE CODE FILE</p>
+                </div>
+                <div class="ButtonSpace">
+                </div>
+                <div class="StepOverButton DisabledButton">
+                    <p>STEP OVER</p>
+                </div>
+                <div class="ContinueButton DisabledButton">
+                    <p>CONTINUE</p>
+                </div>
+                <div class="RestartButton DisabledButton">
+                    <p>RESTART</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="VariablesDisplay">
+            <div class="RegistersDisplay">
+                <div class="VariableTitle RegistersTitle">
+                    <p><i class="fas fa-caret-down fa-1x"></i>  REGISTERS</p>
+                </div>
+                <div class="Registers">
+                    <div class="RegisterValue">
+                        <p class="RegisterIndex">0</p>
+                        <p>0</p>
+                    </div>
+                    
+                    <div class="RegisterValue">
+                        <p class="RegisterIndex">1</p>
+                        <p>0</p>
+                    </div>
+
+                    <div class="RegisterValue">
+                        <p class="RegisterIndex">2</p>
+                        <p>0</p>
+                    </div>
+                        
+                    <div class="RegisterValue">
+                        <p class="RegisterIndex">3</p>
+                        <p>0</p>
+                    </div>
+
+                    <div class="RegisterValue">
+                        <p class="RegisterIndex">4</p>
+                        <p>0</p>
+                    </div>
+                        
+                    <div class="RegisterValue">
+                        <p class="RegisterIndex">5</p>
+                        <p>0</p>
+                    </div>
+
+                    <div class="RegisterValue">
+                        <p class="RegisterIndex">6</p>
+                        <p>0</p>
+                    </div>
+                            
+                    <div class="RegisterValue">
+                        <p class="RegisterIndex">7</p>
+                        <p>0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="MemoryDisplay">
+                <div class="VariableTitle MemoryTitle">
+                    <p><i class="fas fa-caret-down fa-1x"></i>  MEMORY</p>
+                </div>
+                <div class="Memory">
+                </div>        
+            </div>
+            <div class="StackDisplay">
+                <div class="VariableTitle StackTitle">
+                    <p><i class="fas fa-caret-down fa-1x"></i>  STACK</p>
+                </div>
+                <div class="StackDisplaySliderBox">
+                    <p>Drag the slider to see more or less of the stack</p>
+                    <div class="StackDisplaySliderContainer">
+                        <i class="fas fa-cube fa-1x StackSliderIcons MinimumStackSizeIcon"></i>
+                        <input type="range" min="1" max="9" value="3" class="StackDisplaySlider">
+                        <i class="fas fa-cubes fa-1x StackSliderIcons MaximumStackSizeIcon"></i>
+                    </div>
+                </div>
+                <div class="Stack">
+                </div>
+            </div>
+        </div>
+    </body>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <script src="scripts/ReadFile.js"></script>
+    <script src="scripts/SimulatorConstants.js"></script>
+    <script src="scripts/Simulator.js"></script>
+    <script src="scripts/SyntaxHighlighter.js"></script>
+    <script src="scripts/AssemblyFile.js"></script>
+    <script src="scripts/FileOrganizer.js"></script>
+    <script src="scripts/Breakpoints.js"></script>
+    <script src="scripts/Registers.js"></script>
+    <script src="scripts/Memory.js"></script>
+    <script src="scripts/Stack.js"></script>
+    <script src="scripts/Interactions.js"></script>
+</html>

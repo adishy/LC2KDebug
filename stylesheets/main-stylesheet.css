@@ -1,0 +1,548 @@
+html{
+    width: 100%;
+    height: 100%;
+    font-family: 'Open Sans', sans-serif;
+    background: #272727;
+    margin: 0;
+    padding: 0;
+}
+body{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+    padding: 0;
+}
+li{
+    list-style-type: none;
+}
+.highlight{
+    background: rgb(75, 75, 75);
+    opacity: 0.8;
+}
+
+.breakpoint{
+    background: rgba(72, 25, 25, 0.8);
+}
+
+.hidden{
+    display: none;
+}
+
+.Editor{
+    width: 57%;
+    min-width: 627px;
+    height: 100%;
+    background: rgba(17, 17, 17, 1);
+    border-right: 1px solid rgb(34, 33, 33);
+    color: #ececec;
+    display: flex;
+    flex-direction: column;
+}
+
+.LineNumber{
+    color: rgb(97, 97, 97);
+    padding-right: 12px;
+}
+
+.GlobalLabel{
+    color: #C586C0;
+}
+
+.LocalLabel{
+    color: #DCD68F;
+}
+
+.Instruction{
+    max-width: 25px;
+    /* color: #2bbac3; */
+    color: #42b8bf;
+    /* color: #66D9EF; */
+    /* color: #A6E22E; */
+}
+
+.InstructionArgument{
+    color: #9cb7dc;
+}
+
+.DirectiveArgument{
+    color: #ABC37C;
+}
+
+.Comments{
+    color: rgb(121, 121, 121);
+    font-style: italic;
+    overflow-x: visible;
+}
+
+.FileDisplay{
+    font-size: 17px;
+    flex-grow: 1;
+    height: 80%;
+    overflow-y: auto;
+    overflow-x: auto;
+    margin-top: -11px;
+    padding-top: 34px;
+    font-family: 'Ubuntu Mono', monospace;
+    position: relative;
+    z-index: 10;
+}
+
+.FileDisplay p{
+    padding: 4px;
+    padding-left: 10px;
+    margin-top: -14px;  
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+::-webkit-scrollbar-track {
+}
+
+
+::-webkit-scrollbar-thumb {
+    background: rgb(49, 49, 49); 
+    border: 1px solid transparent;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(75, 75, 75); 
+}
+
+.ButtonDisplayBar{
+    height: 44px;
+    width: 100%;
+    min-width: 627px;
+    background: rgba(37, 32, 32, 0.9);
+    z-index: 15;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: auto;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    -webkit-user-select: none;
+    -moz-user-select: none;   
+    -ms-user-select: none;     
+    user-select: none;          
+}
+
+.AssemblyFileButton, 
+.MachineCodeFileButton, 
+.StepOverButton, 
+.ContinueButton, 
+.RestartButton{
+    font-weight: bold;
+    font-size: 11px;
+    background: #2b2c2c;
+    color: #ececec;
+    padding: 5px;
+    padding-left: 14px;
+    padding-right: 14px;
+    margin-left: 3px;
+    margin-right: 3px;
+    transition: 0.2s all linear;
+    cursor: pointer;
+    border: 1px solid #4b4b4d;
+}
+
+.ButtonSpace{
+    flex-grow: 1;
+}
+
+.AssemblyFileButton{
+    margin-left: 5px;
+}
+
+.StepOverButton i, .ContinueButton i{
+    padding-right: 3px;
+}
+
+.AssemblyFileButton p, 
+.MachineCodeFileButton p, 
+.StepOverButton p, 
+.ContinueButton p,
+.RestartButton p{
+    margin-top: 8px;
+}
+
+.AssemblyFileButton:hover, 
+.MachineCodeFileButton:hover,  
+.StepOverButton:hover, 
+.ContinueButton:hover,
+.RestartButton:hover{
+    background: #4b4d4d;
+}
+
+.DisabledButton{
+    background: #4b4d4d;
+    opacity: 0.4; 
+}
+
+.FileTitle{
+    font-size: 12px;
+    font-weight: 700;
+    background: rgb(36, 36, 36);
+    padding: 0px 2px px 2px;
+    margin-top: -12px;
+    -webkit-box-shadow: 0px 13px 49px -5px rgba(0,0,0,0.10);
+    -moz-box-shadow: 0px 13px 49px -5px rgba(0,0,0,0.10);
+    box-shadow: 0px 13px 49px -5px rgba(0,0,0,0.10);
+    transition: all 0.2s linear;
+    cursor: pointer;
+}
+
+
+.FileTitle p{
+    padding: 4px;
+    padding-left: 8px;
+}
+
+.FilenameDisplay{
+    font-size: 12px;
+    font-weight: 700;
+    height: 58px;
+    overflow-y: visible;
+    background: rgb(36, 36, 36);
+    padding: 0px 2px 0px 2px;
+    margin-top: -12px;
+    display: flex;
+    -webkit-box-shadow: 0px 13px 49px -5px rgba(0,0,0,0.10);
+    -moz-box-shadow: 0px 13px 49px -5px rgba(0,0,0,0.10);
+    box-shadow: 0px 13px 49px -5px rgba(0,0,0,0.10);
+    transition: all 0.2s linear;
+    cursor: pointer;
+    overflow-y: hidden;
+    overflow-x: auto;
+    position: relative;
+    z-index: 25;
+}
+
+.FilenameDisplay:hover{
+    /* height: auto; */
+}
+
+.FilesSelectedTitle{
+    min-width: 116px;
+    padding-top: 15px;
+    padding-left: 8px;
+    padding-right: 9px;
+    -webkit-user-select: none;
+    -moz-user-select: none;   
+    -ms-user-select: none;     
+    user-select: none;    
+}
+
+.FilenamesList{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    padding: 0;
+}
+
+.FilenameElement{
+    display: flex;
+    flex-direction: row;
+    background: rgb(48, 44, 44);
+    width: fit-content;
+    height: 30px;
+    color: #a5a5a5;
+    border: 1px solid rgb(63, 62, 62);
+    transition: all 0.2s linear;
+    margin-right: 8px;
+    margin-top: 7px;
+    -webkit-user-select: none;
+    -moz-user-select: none;   
+    -ms-user-select: none;     
+    user-select: none;    
+}
+
+.FilenameElement p{
+    padding: 7px;
+    margin-top: 0px;
+}
+
+.FilenameElement:hover{
+    background: rgb(82, 78, 78);
+}
+
+
+.RemoveFileButton{
+    padding: 5px;
+    padding-left: 7px;
+    margin-top: 5px;
+    color: rgb(153, 153, 153);
+}
+
+.VariablesDisplay{
+    width: 43%;
+    height: 100%;
+    background: rgba(17, 17, 17, 1);
+    color: #ececec;
+    z-index: 10;
+    overflow-y: auto;
+    -webkit-user-select: none;
+    -moz-user-select: none;   
+    -ms-user-select: none;     
+    user-select: none;        
+}
+
+.VariableTitle{
+    font-size: 12px;
+    font-weight: 700;
+    background: rgb(36, 36, 36);
+    padding: 0px 2px px 2px;
+    margin-top: -10px;
+    -webkit-box-shadow: 0px 13px 49px -5px rgba(0,0,0,0.10);
+    -moz-box-shadow: 0px 13px 49px -5px rgba(0,0,0,0.10);
+    box-shadow: 0px 13px 49px -5px rgba(0,0,0,0.10);
+    transition: all 0.2s linear;
+    cursor: pointer;
+}
+
+.VariableTitle:hover{
+    background: rgb(58, 58, 58);
+}
+
+.VariableTitle p{
+    padding: 4px;
+    padding-left: 8px;
+}
+
+.RegistersTitle{
+    margin-top: -12px;
+}
+
+.RegistersDisplay{
+    height: 140px;
+}
+
+.Registers{
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    height: 71px;
+    background: rgb(31, 30, 30);
+    margin: auto;
+    margin-top: 25px;
+}
+
+.RegisterValue{
+    font-size: 11px;
+    font-weight: bold;
+    text-align: center;
+    background: rgb(48, 44, 44);
+    height: 65px;
+    grid-template-rows: column;
+    margin-left: 2px;
+    margin-right: 2px;
+    margin-top: 3px;
+    cursor: pointer;
+} 
+
+.MemoryValue{
+    font-size: 11px;
+    font-weight: bold;
+    text-align: center;
+    background: rgb(48, 44, 44);
+    height: 65px;
+    display: relative;
+    margin-left: 2px;
+    margin-right: 2px;
+    margin-top: 3px;
+    cursor: pointer;
+}
+
+.RegisterValue:hover, .MemoryValue:hover{
+    background: linear-gradient(-45deg, #1a1a1a, #3a3939);
+	background-size: 400% 400%;
+	-webkit-animation: Gradient 2s ease infinite;
+	-moz-animation: Gradient 2s ease infinite;
+    animation: Gradient 2s ease infinite;
+    transition: all 0.2s linear;
+}
+
+@-webkit-keyframes Gradient {
+    0% {
+        background-position: 0% 50% 
+   }
+    50% {
+        background-position: 100% 50% 
+   }
+    100% {
+        background-position: 0% 50% 
+   }
+  }
+
+  @-moz-keyframes Gradient {
+    0% {
+        background-position: 0% 50% 
+   }
+    50% {
+        background-position: 100% 50% 
+   }
+    100% {
+        background-position: 0% 50% 
+   }
+  }
+
+  @keyframes Gradient {
+    0% {
+        background-position: 0% 50% 
+   }
+    50% {
+        background-position: 100% 50% 
+   }
+    100% {
+        background-position: 0% 50% 
+   }
+  }
+
+.RegisterValue p{
+    margin-top: 0px;
+}
+
+.MemoryValue p{ 
+    margin-top: 24px;
+}
+
+.MemoryValue{
+    border: 1px solid rgb(71, 70, 70);
+}
+ 
+.RegisterIndex {
+    font-weight: 500;
+    margin-top: 2px;
+    text-align: left;
+    padding-left: 5px;
+    color: #777777;
+}
+
+.Memory{
+    display: none;
+    grid-template-columns: repeat(8, 1fr);
+    padding-left: 4px;
+    padding-bottom: 14px;    
+    max-height: 420;
+}
+
+.Stack{
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    padding-left: 4px;
+    padding-bottom: 14px;
+    max-height: 30%;
+}
+
+.StackDisplaySliderBox{
+    padding: 4px;
+    padding-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.StackDisplaySliderBox p{
+    font-size: 12px;
+    padding-left: 10px;
+    margin-top: -5px;
+    color: #555555;
+}
+
+.StackDisplaySliderContainer{
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    color: #555555;
+}
+
+.StackSliderIcons{
+    padding: 8px;
+    margin-top: -12px;
+}
+
+.MinimiumStackSizeIcon{
+    padding-right: 12px;
+}
+
+.MaximumStackSizeIcon{
+    padding-left: 12px;
+}
+
+/* The slider itself */
+.StackDisplaySlider {
+    -webkit-appearance: none;  /* Override default CSS styles */
+    appearance: none;
+    width: 45%; /* Full-width */
+    height: 3px; /* Specified height */
+    background: #292828; /* Grey background */
+    outline: none; /* Remove outline */
+    opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+    -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+    transition: opacity .2s;
+    flex-grow: 1;
+    margin-left: 22px;
+    display: block;
+    margin: auto;
+    margin-top: 2px;
+  }
+  
+  /* Mouse-over effects */
+  .StackDisplaySlider:hover {
+    opacity: 1; /* Fully shown on mouse-over */
+  }
+  
+  /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */ 
+  .StackDisplaySlider::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    width: 12px; /* Set a specific slider handle width */
+    height: 16px; /* Slider handle height */
+    background: rgb(67, 68, 67); /* Green background */
+    border: 1px solid transparent;
+    cursor: pointer; /* Cursor on hover */
+  }
+  
+  .StackDisplaySlider::-moz-range-thumb {
+    width: 15px; /* Set a specific slider handle width */
+    height: 15px; /* Slider handle height */
+    background: rgb(92, 94, 92); /* Green background */
+    cursor: pointer; /* Cursor on hover */
+  }
+
+  .Tooltip .TooltipText {
+    max-width: 200px;
+    visibility: hidden;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    opacity: 0.8;
+    border-radius: 6px;
+    padding: 10px;
+    position: absolute;
+    z-index: 80;
+    margin-top: -34px;
+    margin-left: -30px;
+  }
+/*   
+  .Tooltip .TooltipText::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    border-width: 5px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+  } */
+  
+  .Tooltip:hover .TooltipText {
+    visibility: visible;
+  }
