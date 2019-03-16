@@ -1,3 +1,5 @@
+var FileOrganizerDEBUG = true;
+
 var FileOrganizer = {
     FileOrganizerElementClass: ".FilenamesList",
 
@@ -34,16 +36,18 @@ var FileOrganizer = {
     },
 
     RemoveFile: function(_Self, _Event, _Callback, _EmptyCallback){
-        console.log(_Event);
-        console.log(_Event.target);
-        console.log(_Event.target.parentElement);
-        console.log(_Event.target.parentElement.parentElement);
-        
+        if(FileOrganizerDEBUG){
+            console.log(_Event);
+            console.log(_Event.target);
+            console.log(_Event.target.parentElement);
+            console.log(_Event.target.parentElement.parentElement);
+        }
+
         var Index = -1;
 
         var FilenamesList = _Self.FileOrganizerElement;
 
-        console.log(_Self);
+        if(FileOrganizerDEBUG) console.log(_Self);
 
         for(var i = 0; i < FilenamesList.children.length; ++i)
             if(FilenamesList.children[i] == _Event.target.parentElement){
@@ -58,18 +62,23 @@ var FileOrganizer = {
 
         if(typeof _Callback == "function") _Callback(Index);
 
+        if(FileOrganizerDEBUG){
+            console.log(FilenamesList.children);
+            console.log(_EmptyCallback);
+        }
+
         if(typeof _EmptyCallback == "function" && !FilenamesList.children.length) _EmptyCallback();
     },
 
     InitializeFileOrganizer: function(_Callback){
         this.FileOrganizerElement = document.querySelector(this.FileOrganizerElementClass);
-
+        
         this.SortFileOrder = Sortable.create(this.FileOrganizerElement, 
                                              {
                                                 animation: 150,
                                                 easing: "cubic-bezier(1, 0, 0, 1)",
                                                 onEnd: function(_Event){
-                                                            console.log(_Event);
+                                                            if(FileOrganizerDEBUG) console.log(_Event);
                                                             _Callback(_Event.oldIndex, _Event.newIndex);
                                                         }
                                              });

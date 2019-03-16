@@ -11,7 +11,7 @@ var Stack = {
 
     StackSizeSelectorElement: null,
 
-    StackValues: new Int32Array(NUMREGS),
+    StackValues: null,
 
     StackStart: 0,
     

@@ -1,9 +1,9 @@
+var AssemblyFileDEBUG = true;
+
 var AssemblyFile = {
     AssemblyFileElementClass: ".FileDisplay",
 
     AssemblyFileElement: null,
-
-    AssemblyFileValues: [],
 
     InstructionsText: [],
 
@@ -38,20 +38,11 @@ var AssemblyFile = {
 
         AssemblyFileElement.innerHTML = "";
 
-        // var CombinedFile = this.AssemblyFileValues;
-
         var CombinedFile = this.GetCombinedFile();
 
         var LineNumber = 0;
 
         CombinedFile.forEach(function(_Element){
-            // var Text = document.createElement('p');
-            // Text.appendChild(document.createTextNode(_Element));
-            // // AssemblyFileElement.appendChild(Text);
-            // AssemblyFileElement.innerHTML += SyntaxHighlighter.GetHighlightedLine(_Element);
-            // var LineNumberElement = document.createElement("span");
-            // LineNumberElement.classList.add("LineNumber");
-            // LineNumberElement.appendChild(document.createTextNode(LineNumber));
             var HighlightedLine = SyntaxHighlighter.GetHighlightedLine(_Element, 
                                                                        LineNumber, 
                                                                        CombinedFile.length, 
@@ -72,10 +63,13 @@ var AssemblyFile = {
         var NewLine = this.AssemblyFileElement.children[this.PCValue];
 
         NewLine.classList.add("highlight");
+
+        NewLine.scrollIntoView({behavior: "smooth", 
+                                block: "center" });
     },
 
     ReorderFiles: function(_OldIndex, _NewIndex){
-        console.log(this);
+        if(AssemblyFileDEBUG) console.log(this);
         var InstructionsText = this.InstructionsText;
         var DataText = this.DataText;
 
@@ -91,9 +85,9 @@ var AssemblyFile = {
     },
 
     RemoveFile: function(_Index){
-        this.AssemblyFile.InstructionsText.splice(_Index, 1);
-        this.AssemblyFile.DataText.splice(_Index, 1);
-        this.AssemblyFile.DisplayAssemblyFile();
+        this.InstructionsText.splice(_Index, 1);
+        this.DataText.splice(_Index, 1);
+        this.DisplayAssemblyFile();
     },
 
     CombinedFileLength: function(){
@@ -107,7 +101,7 @@ var AssemblyFile = {
             Size += _Element.length;
         });
 
-        console.log(Size);
+        if(AssemblyFileDEBUG) console.log(Size);
 
         return Size;
     },
@@ -142,7 +136,7 @@ var AssemblyFile = {
             
         if(DataStartIndex == -1) DataStartIndex = Instructions.length;
 
-        console.log(DataStartIndex);
+        if(AssemblyFileDEBUG) console.log(DataStartIndex);
 
         this.InstructionsText.push(Instructions.slice(0, DataStartIndex));
         this.DataText.push(Instructions.slice(DataStartIndex, Instructions.length));
@@ -151,8 +145,6 @@ var AssemblyFile = {
         var LastDataElement = LastFileData[LastFileData.length - 1];
 
         if(!LastDataElement.length) LastFileData.pop();
-
-        // this.AssemblyFileValues = _File.split('\n');
 
         this.DisplayAssemblyFile();
     }

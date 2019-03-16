@@ -3,7 +3,7 @@ var Memory = {
 
     MemoryElement: null,
 
-    MemoryValues: new Int32Array(NUMREGS),
+    MemoryValues: null,
 
     MemoryLength: 0,
 

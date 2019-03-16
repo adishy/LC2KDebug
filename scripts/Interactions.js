@@ -1,3 +1,5 @@
+var InteractionsDEBUG = false;
+
 var AssemblyFileDisplayClass = AssemblyFile.AssemblyFileElementClass;
 var StackSizeSelectorClass = Stack.StackSizeSelectorElementClass;
 var AssemblyFileTitleClass = ".Filenames";
@@ -31,7 +33,6 @@ StackTitle.Display = true;
 var Simulation = null;
 var LoadedMachineCode = false;
 var LoadedAssemblyFiles = false;
-var StartedDebugging = false;
 var OutputText = new Output();
 var MachineCodeFile = null;
 
@@ -65,28 +66,50 @@ function ToggleBreakpoint(_LineNumber){
     Breakpoints.ToggleBreakpoints(_LineNumber);
 }
 
-// Breakpoints.AddBreakpoint(3);
-// Breakpoints.AddBreakpoint(2);
-// Breakpoints.AddBreakpoint(4);
+function AssemblyFilesEmpty(){
+    DisableButtons(true, true, false, false, false);
+    LoadedAssemblyFiles = false;
+}
+
+function ReorderedAssemblyFile(_OldIndex, _NewIndex){
+    AssemblyFile.ReorderFiles(_OldIndex, _NewIndex);
+
+    if(LoadedAssemblyFiles && LoadedMachineCode){
+        if(InteractionsDEBUG) console.log("Clicked Restart button");
+        var Click = document.createEvent("Events");
+        Click.initEvent("click", true, false);
+        Restart.dispatchEvent(Click);
+    }
+  }
+
+  function RemoveAssemblyFile(_Index){
+    if(InteractionsDEBUG) console.log("Removed Assembly File");
+
+    AssemblyFile.RemoveFile(_Index);
+
+    if(LoadedMachineCode){
+        if(AssemblyFile.GetCombinedFile() != MachineCodeFile.length){
+            DisableButtons(true, true, false, false, false);
+            LoadedAssemblyFiles = false;
+        }
+    }
+  }
 
 Registers.InitializeRegisterDisplay();
 
 Memory.InitializeMemoryDisplay();
 
-FileOrganizer.InitializeFileOrganizer(function(_OldIndex, _NewIndex){
-                                        if(!StartedDebugging) AssemblyFile.ReorderFiles(_OldIndex, _NewIndex);
-                                      }, 
-                                      function(){
-                                            StepOver.classList.add("DisabledButton")
-                                      });
+FileOrganizer.InitializeFileOrganizer(ReorderedAssemblyFile);
 
 AssemblyFileInput.addEventListener("click", 
                                    function(){
                                         SelectAndReadFile(function(_File, _Filename){
                                                             AssemblyFile.InitializeAssemblyFileDisplay(_File, ToggleBreakpoint);
-                                                            FileOrganizer.AddFile(_Filename, AssemblyFile.RemoveFile);
+                                                            FileOrganizer.AddFile(_Filename, RemoveAssemblyFile, AssemblyFilesEmpty);
                                                             LoadedAssemblyFiles = true;
-                                                            DisableButtons(true, true, false, false ,false);
+                                                            if(LoadedMachineCode) DisableButtons(true, true, true, true, true);
+                                                            
+                                                            else DisableButtons(true, true, false, false ,false);
                                                           }, 
                                                           true);
                                    });
@@ -94,7 +117,7 @@ AssemblyFileInput.addEventListener("click",
 InputFile.addEventListener("click", function(){
     if(LoadedAssemblyFiles){
         SelectAndReadFile(function(_File, _Filename){
-            console.log(_File);
+            if(InteractionsDEBUG) console.log(_File);
             try{
                 Simulation = GetMachineCode(_File, AssemblyFile.CombinedFileLength());
                 MachineCodeFile = _File;
@@ -118,8 +141,6 @@ InputFile.addEventListener("click", function(){
 
 StepOver.addEventListener("click", function(){
     if(LoadedAssemblyFiles && LoadedMachineCode){
-        if(!StartedDebugging) StartedDebugging = true;
-
         var State = ExecuteInstruction(Simulation, OutputText);
     
         AssemblyFile.UpdateValues(Simulation);
@@ -130,7 +151,8 @@ StepOver.addEventListener("click", function(){
 
         Stack.UpdateValues(Simulation);
 
-        if(State == HALTED) console.log(OutputText.GetOutputString());
+        if(State == HALTED) 
+            if(InteractionsDEBUG) console.log(OutputText.GetOutputString());
     }
 });
 
@@ -139,7 +161,6 @@ Continue.Clicks = 0;
 Continue.addEventListener("click", function(){
     if(LoadedAssemblyFiles && LoadedMachineCode){
         ++Continue.Clicks;
-        // Breakpoints.ResetVisitedBreakpoints();
         
         while(!Breakpoints.IsBreakpoint(Simulation.PC, Continue.Clicks) && !ExecuteInstruction.Halted){
             ExecuteInstruction(Simulation, OutputText);
@@ -153,16 +174,14 @@ Continue.addEventListener("click", function(){
 
         Stack.UpdateValues(Simulation);
         
-        // Breakpoints.AddVisitedBreakpoint(Simulation.PC);
-        // Breakpoints.VisitedCurrentBreakpoint = true;
         Breakpoints.CurrentStopped = Simulation.PC;
     }
 });
 
 Restart.addEventListener("click", function(){
-    if(LoadedAssemblyFiles && LoadedMachineCode){
-        StartedDebugging = false;
+    if(InteractionsDEBUG) console.log("Restart button");
 
+    if(LoadedAssemblyFiles && LoadedMachineCode){
         Simulation = GetMachineCode(MachineCodeFile, AssemblyFile.CombinedFileLength());
 
         ExecuteInstruction.Halted = false;
@@ -170,7 +189,7 @@ Restart.addEventListener("click", function(){
         AssemblyFile.UpdateValues(Simulation);
 
         Breakpoints.CurrentStopped = -1;
-        
+
         Registers.UpdateValues(Simulation);
         
         Memory.UpdateValues(Simulation);
@@ -178,15 +197,6 @@ Restart.addEventListener("click", function(){
         Stack.InitializeStackDisplay(Simulation);
 
         Stack.UpdateValues(Simulation);
-    }
-});
-
-Restart.addEventListener("dblclick", function(){
-    if(LoadedAssemblyFiles && LoadedMachineCode){
-        Breakpoints.ResetAllBreakpoints();
-        Breakpoints.ResetVisitedBreakpoints();
-        AssemblyFile.DisplayAssemblyFile();
-        AssemblyFile.UpdateValues(Simulation);
     }
 });
 
@@ -216,7 +226,6 @@ MemoryTitle.addEventListener("click", function(){
     }
 });
 
-
 StackTitle.addEventListener("click", function(){
     if(StackTitle.Display){
         Stack.StackElement.style.display = "none";
@@ -233,4 +242,47 @@ StackTitle.addEventListener("click", function(){
 
 StackSizeSelector.addEventListener("change", function(){
     Stack.UpdateValues(Simulation);
+});
+
+
+document.addEventListener("keyup", function(_Event){
+    /**
+     * C: 67 (Continue)
+     * D: 68 (Delete all breakpoints)
+     * S: 83 (Step over)
+     * R: 82 (Restart)
+     * **/
+
+    var ContinueKey = 67;
+    var RemoveBreakpointsKey = 68;
+    var RestartKey = 82;
+    var StepOverKey = 83;
+
+    if(_Event.keyCode == RemoveBreakpointsKey 
+        && LoadedAssemblyFiles && LoadedMachineCode){
+        Breakpoints.ResetAllBreakpoints();
+        AssemblyFile.DisplayAssemblyFile();
+        AssemblyFile.UpdateValues(Simulation);
+    }
+
+    if(_Event.keyCode == ContinueKey 
+        && LoadedAssemblyFiles && LoadedMachineCode){
+            var Click = document.createEvent("Events");
+            Click.initEvent("click", true, false);
+            Continue.dispatchEvent(Click);
+    }
+
+    if(_Event.keyCode == StepOverKey 
+        && LoadedAssemblyFiles && LoadedMachineCode){
+            var Click = document.createEvent("Events");
+            Click.initEvent("click", true, false);
+            StepOver.dispatchEvent(Click);
+    }
+
+    if(_Event.keyCode == RestartKey
+        && LoadedAssemblyFiles && LoadedMachineCode){
+            var Click = document.createEvent("Events");
+            Click.initEvent("click", true, false);
+            Restart.dispatchEvent(Click);
+    }
 });
