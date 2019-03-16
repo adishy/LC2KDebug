@@ -31,4 +31,10 @@
 #
 ### Tests
 * A spec example with multiple source code files and a final linked machine code file is available in the tests directory of this repository
+#
+### Browser Compatibilty
+* Tested on Google Chrome v73.0.3683.75 and Mozilla Firefox v65.0.2 on Ubuntu Linux
+#
+### Bugs Reports
+* Please report any and all bugs to help improve this project
 
