@@ -4,7 +4,7 @@
 [Demo](https://adishy.github.io/LC2KDebug)
 
 
-![](screenshots/DebuggingView.png | width=250)
+![](screenshots/DebuggingView.png)
 
 #
 ### How do I use this?
